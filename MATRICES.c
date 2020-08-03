@@ -4,24 +4,39 @@
 - Upper Triangular matrix
 - Tri-diagonal matrix
 - Toeplitz matrix
+- Sparse Matrix
 */
 #include <stdio.h>
 #include <stdlib.h>
 
+struct element//for sparse
+{
+    int row;
+    int col;
+    int x;
+};
+struct sparse//for sparse
+{
+    int r;
+    int c;
+    int num;
+    struct element *ele;
+};
 int main()
 {
+    struct sparse s;
     int *A;//1D aray to store
-    int n;//dimension
+    int n, m;//dimension
     int choice;
     int size = 0;//will determine size of 1D array to store elements
-    int x;
+    int t;
     printf("1 : Diagonal Matrix\n2 : Lower Triangular Matrix\n");
     printf("3 : for Upper Triangular Matrix\n4 : Tri-diagonal Matrix\n");
-    printf("5 : Toeplitz Matrix\n6 : Symmetric Matrix\n");
+    printf("5 : Toeplitz Matrix\n6 : Symmetric Matrix\n7 : Sparse Matrix\n");
     printf("Enter Choice : ");
     scanf("%d", &choice);
-    printf("Enter Dimensions : ");
-    scanf("%d",& n);
+    printf("Enter Dimensions (same m & n values for options 1-6: ");
+    scanf("%d%d",&m, &n);
 
     switch(choice)
     {
@@ -33,10 +48,10 @@ int main()
         {
             for(int j = 1 ; j <= n ; j++)
             {
-                scanf("%d", &x);
+                scanf("%d", &t);
                 if(i == j)
                 {
-                    A[i - 1] = x ;
+                    A[i - 1] = t ;
                 }
             }
         }
@@ -71,11 +86,11 @@ int main()
         {
             for(int j = 1 ; j <= n ; j++)
             {
-                scanf("%d", &x);
+                scanf("%d", &t);
                 if(i >= j)
                 {
                     //ROW MAJOR FORMULA can replace i and j in upper triag's RM to get CM here
-                    A[i*(i-1)/2 + (j-1)] = x ;//ROW MAJOR FORMULA
+                    A[i*(i-1)/2 + (j-1)] = t ;//ROW MAJOR FORMULA
                 }
             }
         }
@@ -110,11 +125,11 @@ int main()
         {
             for(int j = 1 ; j <= n ; j++)
             {
-                scanf("%d", &x);
+                scanf("%d", &t);
                 if(i <= j)
                 {
                     //ROW MAJOR FORMULA can replace i and j in lower triag's rm to get col major here
-                    A[(n*(i-1) - (i-1)*(i-2)/2) + (j-i)] = x ;
+                    A[(n*(i-1) - (i-1)*(i-2)/2) + (j-i)] = t ;
                 }
             }
         }
@@ -149,13 +164,13 @@ int main()
         {
             for(int j = 1 ; j <= n ; j++)
             {
-                scanf("%d", &x);
+                scanf("%d", &t);
                 if((i - j) == 1)
-                    A[i-2] = x;
+                    A[i-2] = t;
                 else if((i - j) == 0)
-                    A[n - 1 + i - 1] = x;
+                    A[n - 1 + i - 1] = t;
                 else if((i - j) == -1)
-                    A[(2*n) - 1 + i - 1] = x;
+                    A[(2*n) - 1 + i - 1] = t;
             }
         }
         printf("\n1D array storing the elements : ");
@@ -189,11 +204,11 @@ int main()
         {
             for(int j = 1 ; j <= n ; j++)
             {
-                scanf("%d", &x);
+                scanf("%d", &t);
                 if(i <= j)
-                    A[j - i] = x;
+                    A[j - i] = t;
                 else if(j < i)
-                    A[n + i - j - 1] = x;
+                    A[n + i - j - 1] = t;
             }
         }
         printf("\n1D array storing the elements : ");
@@ -223,11 +238,11 @@ int main()
         {
             for(int j = 1 ; j <= n ; j++)
             {
-                scanf("%d", &x);
+                scanf("%d", &t);
                 if(i >= j)
                 {
                     //ROW MAJOR FORMULA can replace i and j in upper triag's RM to get CM here
-                    A[i*(i-1)/2 + (j-1)] = x ;//ROW MAJOR FORMULA
+                    A[i*(i-1)/2 + (j-1)] = t ;//ROW MAJOR FORMULA
                 }
             }
         }
@@ -256,5 +271,62 @@ int main()
             printf("\n");
         }
         break;
+
+        case 7 :
+        s.r = m;
+        s.c = n;
+        int k = 0;
+        printf("\nEnter number of non-zero elements : ");
+        scanf("%d", &s.num);
+        s.ele = (struct element *)malloc(s.num*sizeof(struct element));
+        printf("\nEnter all elements : \n");
+        for(int i = 1 ; i <= s.r ; i++)
+        {
+            for(int j = 1 ; j <= s.c ; j++)
+            {
+                scanf("%d", &t);
+                if(t != 0)
+                {
+                    s.ele[k].row = i;
+                    s.ele[k].col = j;
+                    s.ele[k].x = t;
+                    k++;
+                }
+            }
+        }
+        printf("\nColumnar representation of the Sparse Matrix : \n");
+        printf("%d ", s.r);
+        for(int i = 0; i < s.num ; i++)
+        {
+            printf("%d ", s.ele[i].row);
+        }
+        printf("\n%d ", s.c);
+        for(int i = 0; i < s.num ; i++)
+        {
+            printf("%d ", s.ele[i].col);
+        }
+        printf("\n%d ", s.num);
+        for(int i = 0; i < s.num ; i++)
+        {
+            printf("%d ", s.ele[i].x);
+        }
+        printf("\nDisplaying matrix from stored columnar representation : \n");
+        k = 0;
+        for(int i = 1 ; i <= s.r ; i++)
+        {
+            for(int j = 1 ; j <= s.c ; j++)
+            {
+                if(i == s.ele[k].row && j == s.ele[k].col)
+                {
+                    printf("%d ", s.ele[k].x);
+                    k++;
+                }
+                else
+                {
+                    printf("0 ");
+                }
+            }
+            printf("\n");
+        }
     }
 }
