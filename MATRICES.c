@@ -278,7 +278,7 @@ int main()
         int k = 0;
         printf("\nEnter number of non-zero elements : ");
         scanf("%d", &s.num);
-        s.ele = (struct element *)malloc(s.num*sizeof(struct element));
+        s.ele = (struct element *)malloc(s.nu*sizeof(struct element));
         printf("\nEnter all elements : \n");
         for(int i = 1 ; i <= s.r ; i++)
         {
