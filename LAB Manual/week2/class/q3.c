@@ -52,11 +52,11 @@ void check_empty(struct node *p)
 {
     if(!p)
     {
-        printf("List is empty\n");
+        printf("\nList is empty\n");
     }
     else
     {
-        printf("List is not empty\n");
+        printf("\nList is not empty\n");
     }
 }
 
@@ -75,7 +75,7 @@ void insert(struct node *p, int index, int x)
 {
     if(index < 0 || index > length(first))
     {
-        printf("Invalid index\n");
+        printf("\nInvalid index\n");
         return;
     }
     struct node *t = (struct node*)malloc(sizeof(struct node));
@@ -99,14 +99,14 @@ int delete_index(struct node *p, int index)
 {
     if(index < 0 || index > length(first))
     {
-        printf("Invalid index\n");
+        printf("\nInvalid index\n");
         return -1;
     }
     
     struct node *q = p;
     int x = 0;
     
-    if(index == 0)
+    if(index == 1)
     {
         q = first;
         x = first->data;
@@ -148,7 +148,7 @@ int delete_key(struct node *p, int key)
             index++;
             if(p->next ==NULL && p->data != key)
             {
-                printf("Key is not present in list\n");
+                printf("\nKey is not present in list\n");
                 return -1;
             }
         }
@@ -208,7 +208,7 @@ int main()
                 break;
 
             case 3 :
-                printf("Enter position (0 for after zero nodes, 1 for after 1 node and so on..) : ");
+                printf("\nEnter position (0 for after zero nodes, 1 for after 1 node and so on..) : ");
                 scanf("%d", &index);
                 printf("Enter data : ");
                 scanf("%d", &x);
@@ -218,7 +218,7 @@ int main()
                 break;
                 
             case 4 :
-                printf("Enter position (1 for 1st node, 2 for 2nd node and so on..): ");
+                printf("\nEnter position (1 for 1st node, 2 for 2nd node and so on..): ");
                 scanf("%d", &index);
                 x = delete_index(first, index);
                 printf("Data deleted at position %d : %d\n", index, x);
@@ -227,7 +227,7 @@ int main()
                 break;
                 
             case 5 :
-                printf("Enter key : ");
+                printf("\nEnter key : ");
                 scanf("%d", &key);
                 index = delete_key(first, key);
                 if(index != -1)
@@ -240,11 +240,11 @@ int main()
                 
             case 6 :
                 len = length(first);
-                printf("Number of nodes : %d\n", len);
+                printf("\nNumber of nodes : %d\n", len);
                 break;
                 
             case 7 :
-                printf("Enter key : ");
+                printf("\nEnter key : ");
                 scanf("%d", &key);
                 index = search(first, key);
                 if(index != -1)
