@@ -102,10 +102,10 @@ int delete_index(struct node *p, int index)
         printf("\nInvalid index\n");
         return -1;
     }
-    
+
     struct node *q = p;
     int x = 0;
-    
+
     if(index == 1)
     {
         q = first;
@@ -130,14 +130,19 @@ int delete_index(struct node *p, int index)
 
 int delete_key(struct node *p, int key)
 {
-    struct node *q = NULL;
     int index = 1;
+    struct node *q = NULL;
+
     if(first->data == key)
     {
         q = first;
-        first = first->next;
-        free(q);
+        if(first->next != NULL)
+            first = first->next;
+        else
+            first = NULL;
+        free (q);
         return index;
+
     }
     else
     {
@@ -202,7 +207,7 @@ int main()
             case 1 :
                 display(first);
                 break;
-                
+
             case 2 :
                 check_empty(first);
                 break;
@@ -216,7 +221,7 @@ int main()
                 printf("New list : ");
                 display(first);
                 break;
-                
+
             case 4 :
                 printf("\nEnter position (1 for 1st node, 2 for 2nd node and so on..): ");
                 scanf("%d", &index);
@@ -225,7 +230,7 @@ int main()
                 printf("New list : ");
                 display(first);
                 break;
-                
+
             case 5 :
                 printf("\nEnter key : ");
                 scanf("%d", &key);
@@ -237,12 +242,12 @@ int main()
                     display(first);
                 }
                 break;
-                
+
             case 6 :
                 len = length(first);
                 printf("\nNumber of nodes : %d\n", len);
                 break;
-                
+
             case 7 :
                 printf("\nEnter key : ");
                 scanf("%d", &key);
@@ -255,4 +260,3 @@ int main()
         }
     }while(choice != 8);
 }
-
